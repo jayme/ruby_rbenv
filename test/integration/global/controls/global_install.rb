@@ -10,3 +10,14 @@ control 'Rbenv should be installed' do
     its('stdout') { should include(global_ruby) }
   end
 end
+
+control 'Path' do
+  impact 1
+  title 'rbenv should be on the path'
+  desc 'rbenv bin and shims should be on the path'
+
+  describe bash('source /etc/profile.d/rbenv.sh && echo $PATH') do
+    its('stdout') { should match /shims/ }
+    its('stdout') { should match %r{.rbenv/bin} }
+  end
+end
